@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-    provider = "sqlite"
+    provider = "postgresql"
     // NOTE: When using postgresql, mysql or sqlserver, uncomment the @db.text annotations in model Account below
     // Further reading: 
     // https://next-auth.js.org/adapters/prisma#create-the-prisma-schema
@@ -25,12 +25,12 @@ model Account {
     type              String
     provider          String
     providerAccountId String
-    refresh_token     String? //@db.Text
-    access_token      String? //@db.Text
+    refresh_token     String? @db.Text
+    access_token      String? @db.Text
     expires_at        Int?
     token_type        String?
     scope             String?
-    id_token          String? //@db.Text
+    id_token          String? @db.Text
     session_state     String?
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -46,13 +46,15 @@ model Session {
 }
 
 model User {
-    id            String    @id @default(cuid())
-    name          String?
-    email         String?   @unique
-    emailVerified DateTime?
-    image         String?
-    accounts      Account[]
-    sessions      Session[]
+    id              String          @id @default(cuid())
+    name            String?
+    email           String?         @unique
+    emailVerified   DateTime?
+    image           String?
+    accounts        Account[]
+    sessions        Session[]
+    projects        Project[]
+    project_members Project_Member[]
 }
 
 model VerificationToken {
@@ -61,4 +63,85 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+model Project {
+  id              String           @id @default(cuid())
+  title           String
+  description     String?
+  creatorId       String
+  creator         User             @relation(fields: [creatorId], references: [id])
+  project_members Project_Member[]
+  tags            Tag[]
+}
+
+model Project_Member {
+  id            String         @id @default(cuid())
+  project_role  Project_Role
+  projectId     String
+  userId        String
+  project       Project        @relation(fields: [projectId], references: [id])
+  user          User           @relation(fields: [userId], references: [id])
+  issue_members Issue_Member[]
+  @@unique([projectId, userId])
+}
+
+model Issue {
+  id              String          @id @default(cuid())
+  title           String
+  description     String?
+  priority        Priority
+  status          Status          @default(In_Progress)
+  issue_members   Issue_Member[]
+  tags_for_issues Tag_for_Issue[]
+}
+
+model Issue_Member {
+  id               String         @id @default(cuid())
+  issue_role       Issue_Role
+  issueId          String
+  project_memberId String
+  issue            Issue          @relation(fields: [issueId], references: [id])
+  project_member   Project_Member @relation(fields: [project_memberId], references: [id])
+
+  @@unique([issueId, project_memberId])
+}
+
+model Tag {
+  id              String          @id @default(cuid())
+  name            String          @unique
+  projectId       String
+  project         Project         @relation(fields: [projectId], references: [id])
+  tags_for_issues Tag_for_Issue[]
+}
+
+model Tag_for_Issue {
+  id      String @id @default(cuid())
+  issueId String
+  tagId   String
+  issue   Issue  @relation(fields: [issueId], references: [id])
+  tag     Tag    @relation(fields: [tagId], references: [id])
+
+  @@unique([issueId, tagId])
+}
+
+enum Priority {
+  Low
+  Medium
+  High
+}
+
+enum Status {
+  Complete
+  In_Progress
+}
+
+enum Project_Role {
+  Creator
+  Member
+}
+
+enum Issue_Role {
+  Creator
+  Assigned
 }
