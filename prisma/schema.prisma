@@ -83,6 +83,7 @@ model Project_Member {
   project       Project        @relation(fields: [projectId], references: [id])
   user          User           @relation(fields: [userId], references: [id])
   issue_members Issue_Member[]
+  
   @@unique([projectId, userId])
 }
 
