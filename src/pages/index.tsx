@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { signIn } from "next-auth/react";
 
 const Home: NextPage = () => {
   return (
@@ -17,7 +18,14 @@ const Home: NextPage = () => {
         <h3 className="text-2xl text-gray-600 pb-6">
           Issue Tracking Done Simple
         </h3>
-        <button className="px-4 py-1 text-lg bg-violet-500 text-white font-semibold rounded-full hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700">
+        <button
+          onClick={() =>
+            signIn(undefined, {
+              callbackUrl: "/dashboard",
+            })
+          }
+          className="px-4 py-1 text-lg bg-violet-500 text-white font-semibold rounded-full hover:bg-violet-600 focus:outline-none focus:ring focus:ring-violet-300 active:bg-violet-700"
+        >
           Get Started
         </button>
       </main>
