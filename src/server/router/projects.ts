@@ -4,9 +4,24 @@ import { createProtectedRouter } from "./protected-router";
 export const projectRouter = createProtectedRouter().query("getAllProjects", {
   async resolve({ ctx }) {
     try {
-      return await ctx.prisma.project.findMany({
+      return await ctx.prisma.projectMember.findMany({
         where: {
-          creatorId: ctx.session.user.id,
+          userId: ctx.session.user.id,
+        },
+        select: {
+          project: {
+            select: {
+              title: true,
+              description: true,
+              id: true,
+              creator: {
+                select: {
+                  name: true,
+                  image: true,
+                },
+              },
+            },
+          },
         },
       });
     } catch (error) {
