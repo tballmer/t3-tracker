@@ -1,17 +1,17 @@
 import Header from "../components/header";
-import { useSession } from "next-auth/react"
-import { trpc } from "../utils/trpc"
+import { trpc } from "../utils/trpc";
+import type { NextPage } from "next";
 
 const ProjectsList = () => {
-  const {data: projects, isLoading } = trpc.useQuery(["project.getAllProjects"])
+  const { data: projects, isLoading } = trpc.useQuery([
+    "project.getAllProjects",
+  ]);
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
   // console.log(projects)
-  return (
-    <div>Test</div>
-  )
-}
+  return <div>Test</div>;
+};
 
 const Projects: NextPage = () => {
   // const { data: session, status } = useSession()

@@ -1,10 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { signIn, signOut, useSession } from "next-auth/react"
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Header() {
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const menuItems = [
     {
@@ -19,10 +19,10 @@ export default function Header() {
 
   if (session === null) {
     signIn(undefined, {
-          callbackUrl: "/dashboard",
-        })
-  } 
- 
+      callbackUrl: "/dashboard",
+    });
+  }
+
   return (
     <>
       <nav className="sticky flex flex-col justify-center px-2 h-auto bg-violet-100">
@@ -44,17 +44,19 @@ export default function Header() {
               className="md:hidden mx-2 flex items-center"
               onClick={() => setIsNavbarOpen(!isNavbarOpen)}
             >
-              <Image 
-                src="/bars-solid.svg" 
-                alt="Menu" 
-                height={22} 
-                width={22} 
-              />
+              <Image src="/bars-solid.svg" alt="Menu" height={22} width={22} />
             </button>
-            <button className="mx-2 flex items-center" onClick={() => signOut()}>
+            <button
+              className="mx-2 flex items-center"
+              onClick={() => signOut()}
+            >
               <Image
                 className="rounded-full"
-                src={session?.user?.image ? session.user.image : "/circle-user-solid.svg"}
+                src={
+                  session?.user?.image
+                    ? session.user.image
+                    : "/circle-user-solid.svg"
+                }
                 alt="User"
                 height={22}
                 width={22}
