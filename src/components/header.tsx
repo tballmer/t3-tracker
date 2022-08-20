@@ -1,8 +1,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { signIn, signOut, useSession } from "next-auth/react"
 
 export default function Header() {
+  const { data: session, status } = useSession()
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const menuItems = [
     {
@@ -13,12 +15,16 @@ export default function Header() {
       href: "/projects",
       title: "Projects",
     },
-    {
-      href: "/workspace",
-      title: "Workspace",
-    },
   ];
 
+  if (session === null) {
+    signIn(undefined, {
+          callbackUrl: "/dashboard",
+        })
+  } else {
+    console.dir(session?.user)
+  }
+ 
   return (
     <>
       <nav className="sticky flex flex-col justify-center px-2 h-auto bg-violet-100">
@@ -40,11 +46,18 @@ export default function Header() {
               className="md:hidden mx-2 flex items-center"
               onClick={() => setIsNavbarOpen(!isNavbarOpen)}
             >
-              <Image src="/bars-solid.svg" alt="Menu" height={22} width={22} />
+              <Image 
+                src="/bars-solid.svg" 
+                alt="Menu" 
+                height={22} 
+                width={22} 
+              />
             </button>
-            <button className="mx-2 flex items-center">
+            <button className="mx-2 flex items-center" onClick={() => signOut()}>
               <Image
+                className="rounded-full"
                 src="/circle-user-solid.svg"
+                src={session?.user?.image ? session.user.image : "/circle-user-solid.svg"}
                 alt="User"
                 height={22}
                 width={22}
@@ -71,8 +84,8 @@ export default function Header() {
         <div>
           <ul
             className={`${
-              isNavbarOpen ? "hidden " : ""
-            }md:hidden flex items-center flex-col text-xl font-semibold`}
+              isNavbarOpen ? "hidden" : ""
+            } md:hidden flex items-center flex-col text-xl font-semibold`}
           >
             {menuItems.map(({ href, title }) => (
               <li key={title} className="mx-2">
