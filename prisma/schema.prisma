@@ -54,7 +54,7 @@ model User {
     accounts        Account[]
     sessions        Session[]
     projects        Project[]
-    project_members Project_Member[]
+    project_members ProjectMember[]
 }
 
 model VerificationToken {
@@ -71,18 +71,18 @@ model Project {
   description     String?
   creatorId       String
   creator         User             @relation(fields: [creatorId], references: [id])
-  project_members Project_Member[]
+  project_members ProjectMember[]
   tags            Tag[]
 }
 
-model Project_Member {
+model ProjectMember {
   id            String         @id @default(cuid())
-  project_role  Project_Role
+  project_role  ProjectRole
   projectId     String
   userId        String
   project       Project        @relation(fields: [projectId], references: [id])
   user          User           @relation(fields: [userId], references: [id])
-  issue_members Issue_Member[]
+  issue_members IssueMember[]
   
   @@unique([projectId, userId])
 }
@@ -93,17 +93,17 @@ model Issue {
   description     String?
   priority        Priority
   status          Status          @default(In_Progress)
-  issue_members   Issue_Member[]
-  tags_for_issues Tag_for_Issue[]
+  issue_members   IssueMember[]
+  tags_for_issues TagForIssue[]
 }
 
-model Issue_Member {
+model IssueMember {
   id               String         @id @default(cuid())
-  issue_role       Issue_Role
+  issue_role       IssueRole
   issueId          String
   project_memberId String
   issue            Issue          @relation(fields: [issueId], references: [id])
-  project_member   Project_Member @relation(fields: [project_memberId], references: [id])
+  project_member   ProjectMember @relation(fields: [project_memberId], references: [id])
 
   @@unique([issueId, project_memberId])
 }
@@ -113,10 +113,10 @@ model Tag {
   name            String          @unique
   projectId       String
   project         Project         @relation(fields: [projectId], references: [id])
-  tags_for_issues Tag_for_Issue[]
+  tags_for_issues TagForIssue[]
 }
 
-model Tag_for_Issue {
+model TagForIssue {
   id      String @id @default(cuid())
   issueId String
   tagId   String
@@ -137,12 +137,12 @@ enum Status {
   In_Progress
 }
 
-enum Project_Role {
+enum ProjectRole {
   Creator
   Member
 }
 
-enum Issue_Role {
+enum IssueRole {
   Creator
   Assigned
 }
