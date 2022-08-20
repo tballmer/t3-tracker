@@ -1,6 +1,6 @@
 import Header from "../components/header";
 
-const dashboard = () => {
+const Dashboard: NextPage = () => {
   return (
     <>
       <Header />
@@ -9,4 +9,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

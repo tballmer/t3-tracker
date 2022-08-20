@@ -21,9 +21,7 @@ export default function Header() {
     signIn(undefined, {
           callbackUrl: "/dashboard",
         })
-  } else {
-    console.dir(session?.user)
-  }
+  } 
  
   return (
     <>
@@ -56,7 +54,6 @@ export default function Header() {
             <button className="mx-2 flex items-center" onClick={() => signOut()}>
               <Image
                 className="rounded-full"
-                src="/circle-user-solid.svg"
                 src={session?.user?.image ? session.user.image : "/circle-user-solid.svg"}
                 alt="User"
                 height={22}
