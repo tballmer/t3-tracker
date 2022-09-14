@@ -2,6 +2,7 @@ import Header from "../components/header";
 import { trpc } from "../utils/trpc";
 import type { NextPage } from "next";
 import Image from "next/image";
+import InputModal from "../components/inputModal";
 
 const ProjectsList = () => {
   const { data: projects, isLoading } = trpc.useQuery([
@@ -19,6 +20,9 @@ const ProjectsList = () => {
           <th>Title</th>
           <th>Description</th>
           <th>Creator</th>
+          <th>
+            <InputModal />
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -38,8 +42,8 @@ const ProjectsList = () => {
                 <Image
                   src={image ? image : "/circle-user-solid.svg"}
                   alt="User"
-                  height={22}
-                  width={22}
+                  height={24}
+                  width={24}
                   className="rounded-full"
                 />
               </td>

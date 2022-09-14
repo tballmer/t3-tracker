@@ -44,7 +44,7 @@ export default function Header() {
               className="md:hidden mx-2 flex items-center"
               onClick={() => setIsNavbarOpen(!isNavbarOpen)}
             >
-              <Image src="/bars-solid.svg" alt="Menu" height={22} width={22} />
+              <Image src="/bars-solid.svg" alt="Menu" height={24} width={24} />
             </button>
             <button
               className="mx-2 flex items-center"
@@ -58,24 +58,24 @@ export default function Header() {
                     : "/circle-user-solid.svg"
                 }
                 alt="User"
-                height={22}
-                width={22}
+                height={24}
+                width={24}
               />
             </button>
             <button className="mx-2 flex items-center">
               <Image
                 src="/bell-solid.svg"
                 alt="Notifications"
-                height={22}
-                width={22}
+                height={24}
+                width={24}
               />
             </button>
             <button className="mx-2 flex items-center">
               <Image
                 src="/gear-solid.svg"
                 alt="Settings"
-                height={22}
-                width={22}
+                height={24}
+                width={24}
               />
             </button>
           </div>
