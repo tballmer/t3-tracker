@@ -14,45 +14,47 @@ const ProjectsList = () => {
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Creator</th>
-          <th>
-            <InputModal />
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {projects?.map(
-          ({
-            project: {
-              title,
-              description,
-              id,
-              creator: { name, image },
-            },
-          }) => (
-            <tr key={id}>
-              <td>{title}</td>
-              <td>{description}</td>
-              <td>
-                <Image
-                  src={image ? image : "/circle-user-solid.svg"}
-                  alt="User"
-                  height={24}
-                  width={24}
-                  className="rounded-full"
-                />
-              </td>
-              <td>{name}</td>
-            </tr>
-          )
-        )}
-      </tbody>
-    </table>
+    <div className="flex justify-center">
+      <table>
+        <thead>
+          <tr className="text-left">
+            <th className="p-1">Title</th>
+            <th className="p-1">Description</th>
+            <th className="p-1">Creator</th>
+            <th className="p-1">
+              <InputModal />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {projects?.map(
+            ({
+              project: {
+                title,
+                description,
+                id,
+                creator: { name, image },
+              },
+            }) => (
+              <tr key={id} className="hover:bg-gray-100 hover:cursor-pointer">
+                <td className="p-1">{title}</td>
+                <td className="p-1">{description}</td>
+                <td className="flex items-center p-1">
+                  <Image
+                    src={image ? image : "/circle-user-solid.svg"}
+                    alt="User"
+                    height={24}
+                    width={24}
+                    className="rounded-full"
+                  />
+                </td>
+                <td className="p-1">{name}</td>
+              </tr>
+            )
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

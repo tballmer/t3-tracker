@@ -83,8 +83,8 @@ export default function Header() {
         <div>
           <ul
             className={`${
-              isNavbarOpen ? "hidden" : ""
-            } md:hidden flex items-center flex-col text-xl font-semibold`}
+              isNavbarOpen ? "" : "hidden"
+            } flex items-center md:hidden flex-col text-xl font-semibold`}
           >
             {menuItems.map(({ href, title }) => (
               <li key={title} className="mx-2">
