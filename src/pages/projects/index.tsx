@@ -1,13 +1,15 @@
-import Header from "../components/header";
-import { trpc } from "../utils/trpc";
+import Header from "../../components/header";
+import { trpc } from "../../utils/trpc";
 import type { NextPage } from "next";
 import Image from "next/image";
-import InputModal from "../components/inputModal";
+import InputModal from "../../components/inputModal";
+import { useRouter } from "next/router";
 
 const ProjectsList = () => {
   const { data: projects, isLoading } = trpc.useQuery([
     "project.getAllProjects",
   ]);
+  const router = useRouter();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -36,7 +38,11 @@ const ProjectsList = () => {
                 creator: { name, image },
               },
             }) => (
-              <tr key={id} className="hover:bg-gray-100 hover:cursor-pointer">
+              <tr
+                onClick={() => router.push(`/projects/${title}`)}
+                key={id}
+                className="hover:bg-gray-100 hover:cursor-pointer"
+              >
                 <td className="p-1">{title}</td>
                 <td className="p-1">{description}</td>
                 <td className="flex items-center p-1">
